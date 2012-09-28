@@ -13,7 +13,7 @@ public class GerenciadorPersistence {
 		ObjectOutputStream stream = null;
 
 		try {
-			fos = new FileOutputStream("dados.txt");
+			fos = new FileOutputStream("dados.bin");
 			stream = new ObjectOutputStream(fos);
 			stream.writeObject(Persistence.getInstance());//escrita do Objeto Pesistence onde se encontram todas minhas listas
 
@@ -44,7 +44,8 @@ public class GerenciadorPersistence {
 		ObjectInputStream stream = null;
 
 		try {
-			fis = new FileInputStream("dados.txt");
+
+			fis = new FileInputStream("dados.bin");
 			stream = new ObjectInputStream(fis);
 			Persistence.setInstance((Persistence) stream.readObject());
 		} catch (Exception e) {
@@ -66,5 +67,4 @@ public class GerenciadorPersistence {
 			}
 		}
 	}
-
 }

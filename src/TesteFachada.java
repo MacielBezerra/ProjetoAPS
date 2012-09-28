@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import Logica.GerenciadorPersistence;
 import Modelo.AgenciaDeTaxi;
 import Modelo.Cidade;
 import Modelo.Endereco;
@@ -29,6 +30,8 @@ public class TesteFachada {
 	private GuiaTuristicoInvalidoException gui;
 	private HospedagemInvalidaException hsp;
 	private AgenciaDeTaxiInvalidaException agte;
+	private PontoTuristicoInvalidoException Ptrst;
+	private GerenciadorPersistence ger;
 
 	@Before
 	public void setUp(){
@@ -46,10 +49,12 @@ public class TesteFachada {
 		gui = new GuiaTuristicoInvalidoException(null);
 		hsp = new HospedagemInvalidaException(null);
 		agte = new AgenciaDeTaxiInvalidaException(null);
+		Ptrst = new PontoTuristicoInvalidoException(null);
+		ger = new GerenciadorPersistence();
 		persist.reset();
 
 	}
-
+	
 	// Teste cadastros Inexistente
 
 	@Test
@@ -127,6 +132,7 @@ public class TesteFachada {
 	}
 
 	// Testes Pesquisar existente
+	
 	@Test
 	public void testPesquisarTuristaExistentePorNome()
 			throws TuristaInvalidoException {
@@ -357,7 +363,7 @@ public class TesteFachada {
 		GuiaTuristico guiaturististico = new GuiaTuristico("Antoin", null);
 		f.cadastrarGuiaTuristico(guiaturististico);
 	}
-	
+
 	@Test
 	public void testCadastrarPontoTuristicoInvalido() throws PontoTuristicoInvalidoException{
 
@@ -370,7 +376,7 @@ public class TesteFachada {
 		f.cadastrarPontoTuristico(pontoturistico);
 
 	}
-	
+
 	@Test
 	public void testCadastrarCidadeInvalida() throws CidadeInvalidaException{
 
@@ -380,30 +386,30 @@ public class TesteFachada {
 		f.cadastrarCidade(cidade);
 
 	}
-	
+
 	//Pesquisas Invalidas
 	@Test
 	public void testPesquisarTuristaInvalidoPorNome() throws TuristaInvalidoException{
-		
+
 		Turista t = new Turista("Jose", "111111-10");
 		f.cadastrarTurista(t);
 		Turista t1 = f.pesquisarTuristaPorNome(null);
 		Assert.assertEquals(tu.getMessage(),t1 );
 	}
-	
+
 	@Test
 	public void testPesquisarGuiaTuristicoInvaldioPorNome() throws GuiaTuristicoInvalidoException{
-	
+
 		GuiaTuristico guia = new GuiaTuristico();
 		guia.setNome("João");
 		f.cadastrarGuiaTuristico(guia);
 		GuiaTuristico guia1 = f.pesquisarGuiaTuristicoPorNome(null);
 		Assert.assertEquals(gui.getMessage(), guia1);
 	}
-	
+
 	@Test
 	public void testPesquisarHospedagemInvalidaPorNome() throws HospedagemInvalidaException{
-		
+
 		Hospedagem hospede = new Hospedagem();
 		hospede.setNome("Zezinho");
 		hospede.setDescricao("Localizado ao lado da mata");
@@ -412,10 +418,10 @@ public class TesteFachada {
 		Hospedagem hospede1 = f.pesquisarHospedagemPorNome(null);
 		Assert.assertEquals(hsp.getMessage(), hospede1);
 	}
-	
+
 	@Test
 	public void testPesquisarAgenciaDeTaxiInvalidaPorNome() throws AgenciaDeTaxiInvalidaException {
-		
+
 		AgenciaDeTaxi agencia = new AgenciaDeTaxi();
 		agencia.setNome("Deus nos Acuda");
 		agencia.setId(99999);
@@ -423,35 +429,67 @@ public class TesteFachada {
 		f.cadastrarAgenciaDeTaxi(agencia);
 		AgenciaDeTaxi agencia1 = f.pesquisarAgenciaDeTaxiPorNome(null);
 		Assert.assertEquals(agte.getMessage(), agencia1);
-		
+
 	}
-	
+
 	//Remover Invalidos
 	@Test
-	public void testRemoverTuristaInvalidoPorNome(){
-		
+	public void testRemoverTuristaInvalidoPorNome() throws TuristaInvalidoException{
+
+		Turista t = new Turista("Sebastião", "1234567-90");
+		f.cadastrarTurista(t);
+		boolean b = f.removerTuristaPorNome(null);
+
 	}
-	
+
 	@Test
-	public void testRemoverGuiaTuristicoInvalidoPorNome(){
-		
+	public void testRemoverGuiaTuristicoInvalidoPorNome() throws GuiaTuristicoInvalidoException{
+
+		GuiaTuristico guiaturististico = new GuiaTuristico("josefina", "11111111");
+		f.cadastrarGuiaTuristico(guiaturististico);
+		boolean b1 = f.removerGuiaTuristicoPorNome(null);
+
 	}
-	
+
 	@Test
-	public void testRemoverHospedagemInvalidaPorNome(){
-		
+	public void testRemoverHospedagemInvalidaPorId() throws HospedagemInvalidaException{
+
+		Hospedagem hp = new Hospedagem();
+		hp.setNome("Pousda por do Sol");
+		hp.setId(98776);
+		f.cadastrarHospedagem(hp);
+		f.removerHospedagemPorId(0000);
+
 	}
-	
+
 	@Test
 	public void testRemoverAgenciaDeTaxiInvalidaPorNome(){
-		
+
+		AgenciaDeTaxi agT = new AgenciaDeTaxi();
+		agT.setNome("Campos dos colorios");
+		agT.setCnpj("9999999");
+		e.setEstado("Rio Grande do Sul");
+		e.setBairro("Varzea Nova do Sul");
+		agT.setEndereco(e);
+		f.cadastrarAgenciaDeTaxi(agT);
+		boolean b3 = f.removerAgenciaDeTaxiPorNome(null);
+
 	}
-	
+
 	@Test
 	public void testRemoverPontoTuristaInvalidoPorNome(){
-		
+
+		PontoTuristico pontoturistico= new PontoTuristico();
+		pontoturistico.setNome("Pedra da boca");
+		e.setCidade("Araruna");
+		e.setEstado("PB");
+		e.setPais("Brasil");
+		pontoturistico.setEndereco(e);
+		f.cadastrarPontoTuristico(pontoturistico);
+		boolean b4 = f.removerPontoTuristicoPorNome(null);
+
 	}
-	
+
 	// Listar Existentes
 	@Test
 	public void testListarTuristas() throws TuristaInvalidoException {
@@ -503,7 +541,7 @@ public class TesteFachada {
 		Assert.assertEquals(h1, aux.get(0));
 		Assert.assertEquals(h2, aux.get(1));
 	}
-	
+
 	@Test 
 	public void testListarGuiaTuristo() throws GuiaTuristicoInvalidoException{
 
@@ -525,7 +563,7 @@ public class TesteFachada {
 		Assert.assertEquals(guia1, guiasTuristicos.get(1));
 		Assert.assertEquals(guia2, guiasTuristicos.get(2));
 	}
-	
+
 	@Test
 	public void testListarPontoTuristico() throws PontoTuristicoInvalidoException{
 
@@ -545,7 +583,7 @@ public class TesteFachada {
 		Assert.assertEquals(p,auxPt.get(0));
 		Assert.assertEquals(p1, auxPt.get(1));
 	}
-	
+
 	@Test
 	public void testLitarAgenciaDeTaxi() throws AgenciaDeTaxiInvalidaException{
 
@@ -566,6 +604,5 @@ public class TesteFachada {
 		Assert.assertEquals(agencia1, auxAgt.get(0));
 		Assert.assertEquals(agencia2, auxAgt.get(1));
 	}
-	
+    
 }
- 

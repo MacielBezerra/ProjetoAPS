@@ -19,7 +19,6 @@ public class GerenciadorCidades {
 	public ArrayList<Cidade> listarCidades() {
 		ger.persistir();
 		return per.getCidades();
-
 	}
 
 	public Cidade pesquisarCidadePorNome(String nome)

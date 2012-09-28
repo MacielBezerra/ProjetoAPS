@@ -2,6 +2,7 @@ package Modelo;
 
 
 import java.io.Serializable;
+
 import java.util.*;
 
 public class Persistence implements Serializable {
@@ -26,6 +27,7 @@ public class Persistence implements Serializable {
 	}
 
 	public static void setInstance(Persistence instance) {
+		
 		Persistence.instance = instance;
 	}
     public static void reset(){
